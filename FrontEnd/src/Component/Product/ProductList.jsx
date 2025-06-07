@@ -1,8 +1,7 @@
 import React, { useState, useEffect  } from 'react';
 import Product from './Product';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { fetchProducts } from '../../App/features/product/productSlice';
+import { fetchProducts } from '../../app/features/product/productSlice';
 
 const ProductList = () => {
 
