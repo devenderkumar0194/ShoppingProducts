@@ -1,14 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+const backEndURL = "http://localhost:3000";
+
 // Async call to fetch products
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
-    const response = await fetch('https://fakestoreapi.com/products');
+    const response = await fetch(backEndURL+'/api/product-list');
     const data = await response.json();
     return data;
   }
 );
+
 
 const productSlice = createSlice({
   name: 'products',
@@ -25,7 +28,9 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = action.payload;
+        if(action.payload.status === 200){
+          state.items = action.payload.data;
+        }
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = 'failed';
