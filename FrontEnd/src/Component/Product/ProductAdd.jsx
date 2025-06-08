@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addProduct, clearAddError } from "../../app/features/product/productSlice";
-
 
 function ProductAdd() {
     const [open, setOpen] = useState(false);
