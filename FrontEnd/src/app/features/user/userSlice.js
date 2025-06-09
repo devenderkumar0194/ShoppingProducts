@@ -4,20 +4,22 @@ import axios from 'axios';
 const backEndURL = "http://localhost:3000";
 
 // Async call to fetch products
-export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async () => {
-    const response = await fetch(backEndURL+'/api/product-list');
-    const data = await response.json();
-    return data;
-  }
-);
+// export const fetchProducts = createAsyncThunk(
+//   'products/fetchProducts',
+//   async () => {
+//     const response = await fetch(backEndURL+'/api/product-list');
+//     const data = await response.json();
+//     return data;
+//   }
+// );
 
 
-// Add product
-export const addProduct = createAsyncThunk('products/addProduct', async (newProduct, { rejectWithValue }) => {
+// register User
+export const registerUser = createAsyncThunk('products/registerUser', async (newUser, { rejectWithValue }) => {
   try {
-      const response = await axios.post(backEndURL+'/api/add-product', newProduct);
+    console.log("new regist user hit ");
+    
+      const response = await axios.post(backEndURL+'/api/register', newUser);
       return response.data; // success path
   } catch (err) {
     // Return 409 or any error message from API
@@ -26,7 +28,6 @@ export const addProduct = createAsyncThunk('products/addProduct', async (newProd
     }
     return rejectWithValue({ message: err.message });
   }
-
 
   return response.data;
 });
@@ -46,8 +47,8 @@ export const addProduct = createAsyncThunk('products/addProduct', async (newProd
 // });
 
 
-const productSlice = createSlice({
-  name: 'products',
+const userSlice = createSlice({
+  name: 'users',
   initialState: {
     items: [],
     status: 'idle', // loading | succeeded | failed
@@ -68,30 +69,30 @@ const productSlice = createSlice({
     builder
 
       // Fetch products 
-      .addCase(fetchProducts.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        if(action.payload.status === 200){
-          state.items = action.payload.data;
-        }
-      })
-      .addCase(fetchProducts.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
+    //   .addCase(fetchProducts.pending, (state) => {
+    //     state.status = 'loading';
+    //   })
+    //   .addCase(fetchProducts.fulfilled, (state, action) => {
+    //     state.status = 'succeeded';
+    //     if(action.payload.status === 200){
+    //       state.items = action.payload.data;
+    //     }
+    //   })
+    //   .addCase(fetchProducts.rejected, (state, action) => {
+    //     state.status = 'failed';
+    //     state.error = action.error.message;
+    //   })
 
       // ADD
-      .addCase(addProduct.pending, (state) => {
+      .addCase(registerUser.pending, (state) => {
         state.addStatus = 'loading';
       })
-      .addCase(addProduct.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state, action) => {
           state.addStatus = 'succeeded';
           state.items.unshift(action.payload.data);
           state.addError = null;
       })
-      .addCase(addProduct.rejected, (state, action) => {
+      .addCase(registerUser.rejected, (state, action) => {
         state.addStatus = 'failed';
         state.addError = action.payload.message;
       })
@@ -112,7 +113,7 @@ const productSlice = createSlice({
   },
 });
 
-export const { setAddError, clearAddError } = productSlice.actions;
+export const { setAddError, clearAddError } = userSlice.actions;
 
 
-export default productSlice.reducer;
+export default userSlice.reducer;
