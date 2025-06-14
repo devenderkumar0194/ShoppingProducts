@@ -5,8 +5,9 @@ const db =  (req, res) => {
     const databasePassword = process.env.DATABASE_PASSWORD;
     const databaseName = process.env.DATABASE_NAME;
 
-    const str = "mongodb+srv://devenderthapar94:ybQSPhy2bC9lUTZs@cluster0.bq09y.mongodb.net/shoppingProduct?retryWrites=true&w=majority";
-    
+    // const str = "mongodb+srv://devenderthapar94:ybQSPhy2bC9lUTZs@cluster0.bq09y.mongodb.net/shoppingProduct?retryWrites=true&w=majority";
+    const str = "mongodb://admin:qwerty@localhost:27017/shoppingProduct?authSource=admin";
+
     mongoose.connect(str, {
         // useNewUrlParser: true,
         // useUnifiedTopology: true,
